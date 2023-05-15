@@ -53,6 +53,8 @@ exports.removeOwnNotice = async (userId, noticeId) => {
 
 exports.listNoticesByCategory = async (category, { skip = 0, limit = 12 }) => {
   try {
+    const total = await Notice.find({ category }).count();
+
     const notices = await Notice.find(
       { category },
       "-createdAt -updatedAt -idCloudAvatar"
@@ -62,7 +64,7 @@ exports.listNoticesByCategory = async (category, { skip = 0, limit = 12 }) => {
       .skip(skip)
       .limit(limit);
 
-    return notices;
+    return { notices, total };
   } catch (error) {
     console.log(error);
   }
@@ -83,6 +85,8 @@ exports.getNoticeById = async (noticeId) => {
 
 exports.listUserOwnNotices = async (userId, { skip = 0, limit = 12 }) => {
   try {
+    const total = await Notice.find({ owner: userId }).count();
+
     const notices = await Notice.find(
       { owner: userId },
       "-createdAt -updatedAt -idCloudAvatar"
@@ -92,7 +96,7 @@ exports.listUserOwnNotices = async (userId, { skip = 0, limit = 12 }) => {
       .skip(skip)
       .limit(limit);
 
-    return notices;
+    return { notices, total };
   } catch (error) {
     console.log(error);
   }
@@ -100,6 +104,10 @@ exports.listUserOwnNotices = async (userId, { skip = 0, limit = 12 }) => {
 
 exports.listFavoriteNotices = async (userId, { skip = 0, limit = 12 }) => {
   try {
+    const total = await Notice.find({
+      favorite: { $in: userId },
+    }).count();
+
     const notices = await Notice.find(
       {
         favorite: { $in: userId },
@@ -113,7 +121,7 @@ exports.listFavoriteNotices = async (userId, { skip = 0, limit = 12 }) => {
       .skip(skip)
       .limit(limit);
 
-    return notices;
+    return { notices, total };
   } catch (error) {
     console.log(error);
   }
@@ -124,6 +132,11 @@ exports.searcNoticeByTitle = async (
   { skip = 0, limit = 12 }
 ) => {
   try {
+    const total = await Notice.find({
+      category,
+      title: { $regex: new RegExp(search, "i") },
+    }).count();
+
     const notices = await Notice.find(
       { category, title: { $regex: new RegExp(search, "i") } },
       "-createdAt -updatedAt"
@@ -133,7 +146,7 @@ exports.searcNoticeByTitle = async (
       .skip(skip)
       .limit(limit);
 
-    return notices;
+    return { notices, total };
   } catch (error) {
     console.log(error);
   }
@@ -144,6 +157,11 @@ exports.searchFavoriteNoticeByTitle = async (
   { skip = 0, limit = 12 }
 ) => {
   try {
+    const total = await Notice.find({
+      favorite: { $in: userId },
+      title: { $regex: new RegExp(search, "i") },
+    }).count();
+
     const notices = await Notice.find(
       { favorite: { $in: userId }, title: { $regex: new RegExp(search, "i") } },
       "-createdAt -updatedAt -idCloudAvatar"
@@ -153,7 +171,7 @@ exports.searchFavoriteNoticeByTitle = async (
       .skip(skip)
       .limit(limit);
 
-    return notices;
+    return { notices, total };
   } catch (error) {
     console.log(error);
   }
@@ -164,6 +182,11 @@ exports.searchUserNoticeByTitle = async (
   { skip = 0, limit = 12 }
 ) => {
   try {
+    const total = await Notice.find({
+      owner: userId,
+      title: { $regex: new RegExp(search, "i") },
+    }).count();
+
     const notices = await Notice.find(
       { owner: userId, title: { $regex: new RegExp(search, "i") } },
       "-createdAt -updatedAt -idCloudAvatar"
@@ -173,7 +196,7 @@ exports.searchUserNoticeByTitle = async (
       .skip(skip)
       .limit(limit);
 
-    return notices;
+    return { notices, total };
   } catch (error) {
     console.log(error);
   }

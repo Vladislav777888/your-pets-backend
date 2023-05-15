@@ -68,14 +68,15 @@ exports.listNoticesByCategory = catchAsync(async (req, res, next) => {
   limit = limit > 12 ? 12 : limit;
   const skip = (page - 1) * limit;
 
-  const notices = await noticesService.listNoticesByCategory(category, {
-    skip,
-    limit,
-  });
+  const { notices, total } = await noticesService.listNoticesByCategory(
+    category,
+    {
+      skip,
+      limit,
+    }
+  );
 
-  res
-    .status(200)
-    .json({ notices, page, per_page: limit, total: notices.length });
+  res.status(200).json({ notices, page, per_page: limit, total });
 });
 
 exports.getNoticeById = catchAsync(async (req, res) => {
@@ -96,14 +97,12 @@ exports.listUserOwnNotices = catchAsync(async (req, res) => {
   limit = limit > 12 ? 12 : limit;
   const skip = (page - 1) * limit;
 
-  const notices = await noticesService.listUserOwnNotices(userId, {
+  const { notices, total } = await noticesService.listUserOwnNotices(userId, {
     skip,
     limit,
   });
 
-  res
-    .status(200)
-    .json({ notices, page, per_page: limit, total: notices.length });
+  res.status(200).json({ notices, page, per_page: limit, total });
 });
 
 exports.listFavoriteNotices = catchAsync(async (req, res) => {
@@ -117,14 +116,12 @@ exports.listFavoriteNotices = catchAsync(async (req, res) => {
 
   const skip = (page - 1) * limit;
 
-  const notices = await noticesService.listFavoriteNotices(userId, {
+  const { notices, total } = await noticesService.listFavoriteNotices(userId, {
     skip,
     limit,
   });
 
-  res
-    .status(200)
-    .json({ notices, page, per_page: limit, total: notices.length });
+  res.status(200).json({ notices, page, per_page: limit, total });
 });
 
 exports.searcNoticeByTitle = catchAsync(async (req, res) => {
@@ -138,14 +135,12 @@ exports.searcNoticeByTitle = catchAsync(async (req, res) => {
 
   const skip = (page - 1) * limit;
 
-  const notices = await noticesService.searcNoticeByTitle(
+  const { notices, total } = await noticesService.searcNoticeByTitle(
     { search, category },
     { skip, limit }
   );
 
-  res
-    .status(200)
-    .json({ notices, page, per_page: limit, total: notices.length });
+  res.status(200).json({ notices, page, per_page: limit, total });
 });
 
 exports.searchFavoriteNoticeByTitle = catchAsync(async (req, res) => {
@@ -158,14 +153,12 @@ exports.searchFavoriteNoticeByTitle = catchAsync(async (req, res) => {
   limit = limit > 12 ? 12 : limit;
   const skip = (page - 1) * limit;
 
-  const notices = await noticesService.searchFavoriteNoticeByTitle(
+  const { notices, total } = await noticesService.searchFavoriteNoticeByTitle(
     { search, userId },
     { skip, limit }
   );
 
-  res
-    .status(200)
-    .json({ notices, page, per_page: limit, total: notices.length });
+  res.status(200).json({ notices, page, per_page: limit, total });
 });
 
 exports.searchUserNoticeByTitle = catchAsync(async (req, res) => {
@@ -178,12 +171,10 @@ exports.searchUserNoticeByTitle = catchAsync(async (req, res) => {
   limit = limit > 12 ? 12 : limit;
   const skip = (page - 1) * limit;
 
-  const notices = await noticesService.searchUserNoticeByTitle(
+  const { notices, total } = await noticesService.searchUserNoticeByTitle(
     { search, userId },
     { skip, limit }
   );
 
-  res
-    .status(200)
-    .json({ notices, page, per_page: limit, total: notices.length });
+  res.status(200).json({ notices, page, per_page: limit, total });
 });

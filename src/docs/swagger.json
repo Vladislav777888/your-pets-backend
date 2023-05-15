@@ -911,6 +911,57 @@
           }
         }
       }
+    },
+
+    "/api/news/title": {
+      "get": {
+        "tags": ["News"],
+        "summary": "Get news by title",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Current page",
+            "schema": {
+              "type": "integer",
+              "example": "1"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "limit of news per page",
+            "schema": {
+              "type": "integer",
+              "example": "6"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "description": "Search word",
+            "schema": {
+              "type": "string",
+              "example": "dog"
+            }
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
     }
   },
 
