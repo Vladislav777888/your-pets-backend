@@ -894,7 +894,26 @@
       "get": {
         "tags": ["News"],
         "summary": "Get news",
-        "parameters": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Current page",
+            "schema": {
+              "type": "integer",
+              "example": "1"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "limit of news per page",
+            "schema": {
+              "type": "integer",
+              "example": "6"
+            }
+          }
+        ],
         "requestBody": {},
         "responses": {
           "200": {
