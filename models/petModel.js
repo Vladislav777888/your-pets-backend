@@ -33,9 +33,9 @@ const petSchema = new Schema({
 
 const petJoiSchema = Joi.object({
   name: Joi.string().min(2).max(16).required(),
-  birthday: Joi.date().min("2000-01-01").max(Date.now()).iso().required(),
+  birthday: Joi.string().required(),
   breed: Joi.string().min(2).max(16).required(),
-  comments: Joi.string().min(18).max(120),
+  comments: Joi.string().min(8).max(120),
 });
 
 const Pet = model("pet", petSchema);

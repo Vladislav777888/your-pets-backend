@@ -22,8 +22,8 @@ const noticeSchema = new Schema(
       max: 16,
       description: "Notice name in en",
     },
-    birthdate: {
-      type: Date,
+    birthday: {
+      type: String,
       required: [true, "Birth date is required"],
       description: "Notice birth date",
     },
