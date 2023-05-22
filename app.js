@@ -32,7 +32,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJsDoc));
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerJsDoc));
 app.use("/api", userRouter);
 app.use("/api/notices", noticesRouter);
 app.use("/api/pets", petsRouter);

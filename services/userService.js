@@ -1,4 +1,5 @@
 const { User } = require("../models");
+
 const { signToken } = require("../utils");
 
 exports.register = async (body) => {
@@ -15,10 +16,13 @@ exports.login = async (body) => {
   try {
     const { email } = body;
     const user = await User.findOne({ email });
+    console.log('user', user)
+
 
     const token = signToken(user._id);
 
     user.token = token;
+
     await user.save();
 
     return user;
@@ -26,6 +30,29 @@ exports.login = async (body) => {
     console.log(error);
   }
 };
+
+// exports.google = async (body) => {
+//   try {
+//     console.log('userService', body);
+//     const { user, token } = body;
+//     console.log('google user', user)
+//     const { email } = user;
+//     console.log('google email', email)
+//     const userFound = await User.findOne({ email });
+
+//     if (!userFound) {
+//       const userCreated = await User.create({ ...user });
+//       return userCreated;
+//     }
+
+//     userFound.token = token;
+//     await userFound.save();
+
+//     return userFound;
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
 
 exports.logout = async (currentUser) => {
   try {

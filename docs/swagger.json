@@ -204,11 +204,6 @@
         "requestBody": {
           "description": "Update user object",
           "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateUserRequest"
-              }
-            },
             "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/UpdateUserImgRequest"
@@ -256,6 +251,24 @@
             "schema": {
               "type": "string",
               "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIi..."
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Current page",
+            "schema": {
+              "type": "integer",
+              "example": "1"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "limit of notices per page",
+            "schema": {
+              "type": "integer",
+              "example": "2"
             }
           }
         ],
@@ -339,6 +352,16 @@
             "schema": {
               "type": "string",
               "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIi..."
+            }
+          },
+          {
+            "in": "path",
+            "name": "petId",
+            "description": "ID of the notice to get",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "645e533389827094770e41f1"
             }
           }
         ],
@@ -681,7 +704,7 @@
       }
     },
 
-    "/api/notices/": {
+    "/api/notices": {
       "post": {
         "tags": ["Notices"],
         "summary": "Add user's own notice",
@@ -728,7 +751,10 @@
             "content": {}
           }
         }
-      },
+      }
+    },
+
+    "/api/notices/{id}": {
       "delete": {
         "tags": ["Notices"],
         "summary": "Delete user's own notice",
@@ -912,48 +938,6 @@
               "type": "integer",
               "example": "6"
             }
-          }
-        ],
-        "requestBody": {},
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {}
-          },
-          "404": {
-            "description": "Not found",
-            "content": {}
-          },
-          "500": {
-            "description": "Server error",
-            "content": {}
-          }
-        }
-      }
-    },
-
-    "/api/news/title": {
-      "get": {
-        "tags": ["News"],
-        "summary": "Get news by title",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "page",
-            "description": "Current page",
-            "schema": {
-              "type": "integer",
-              "example": "1"
-            }
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "description": "limit of news per page",
-            "schema": {
-              "type": "integer",
-              "example": "6"
-            }
           },
           {
             "in": "query",
@@ -1022,12 +1006,18 @@
         }
       },
 
-      "UpdateUserRequest": {
+      "UpdateUserImgRequest": {
         "type": "object",
         "properties": {
+          "avatar": {
+            "type": "string",
+            "format": "binary",
+            "description": "User's avatar"
+          },
           "name": {
             "type": "string",
             "description": "User's name",
+            "pattern": "/^[a-zA-Z ]+$/",
             "example": "John"
           },
           "email": {
@@ -1056,20 +1046,9 @@
         }
       },
 
-      "UpdateUserImgRequest": {
-        "type": "object",
-        "properties": {
-          "avatar": {
-            "type": "string",
-            "format": "binary",
-            "description": "User's avatar"
-          }
-        }
-      },
-
       "CreatePetRequest": {
         "type": "object",
-        "required": ["name", "birthday", "breed"],
+        "required": ["name", "birthday", "breed", "photo"],
         "properties": {
           "photo": {
             "type": "string",
@@ -1081,6 +1060,7 @@
             "description": "Pet's name",
             "minLength": 2,
             "maxLength": 16,
+            "pattern": "/^[a-zA-Z ]+$/",
             "example": "Napoleon"
           },
           "birthday": {
@@ -1094,6 +1074,7 @@
             "description": "Pet's breed",
             "minLength": 2,
             "maxLength": 16,
+            "pattern": "/^[a-zA-Z ]+$/",
             "example": "buldog"
           },
           "comments": {
@@ -1144,6 +1125,7 @@
             "description": "Pet's name",
             "minLength": 2,
             "maxLength": 16,
+            "pattern": "/^[a-zA-Z ]+$/",
             "example": "Napoleon"
           },
           "birthday": {
@@ -1157,6 +1139,7 @@
             "description": "Pet's breed",
             "minLength": 2,
             "maxLength": 16,
+            "pattern": "/^[a-zA-Z ]+$/",
             "example": "Buldog"
           },
           "location": {

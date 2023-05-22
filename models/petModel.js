@@ -1,5 +1,6 @@
 const Joi = require("joi");
 const { Schema, model } = require("mongoose");
+const { regExp } = require("../constants");
 
 const petSchema = new Schema({
   name: {
@@ -32,9 +33,9 @@ const petSchema = new Schema({
 });
 
 const petJoiSchema = Joi.object({
-  name: Joi.string().min(2).max(16).required(),
+  name: Joi.string().min(2).max(16).regex(regExp.NAME_REGEX).required(),
   birthday: Joi.string().required(),
-  breed: Joi.string().min(2).max(16).required(),
+  breed: Joi.string().min(2).max(16).regex(regExp.BREED_REGEX).required(),
   comments: Joi.string().min(8).max(120),
 });
 

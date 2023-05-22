@@ -48,6 +48,16 @@ exports.checkUserLogin = catchAsync(async (req, res, next) => {
   next();
 });
 
+// exports.checkUserGoogle = catchAsync(async (req, res, next) => {
+//   const { error, value } = userValidator.googleValidator(req.body);
+
+//   const userExists = await User.exists({ email: value.email });
+
+//   const userFound = await User.findOne({email: value.email})
+
+
+// })
+
 exports.protectRoute = catchAsync(async (req, res, next) => {
   const token =
     req.headers.authorization?.startsWith("Bearer") &&

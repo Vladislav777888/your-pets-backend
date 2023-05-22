@@ -18,7 +18,7 @@ petsRouter
   );
 
 petsRouter
-  .route("/:petId")
+  .route("/:id")
   .delete(petsMiddlewares.checkIsValidId, petsController.removePet);
 
 module.exports = petsRouter;
